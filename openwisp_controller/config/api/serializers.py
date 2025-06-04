@@ -380,25 +380,25 @@ class DeviceGroupSerializer(BaseSerializer):
 
 
 class VersionSerializer(BaseSerializer):
-    user_id = serializers.CharField(source='revision.user_id', read_only=True)
+    user_id = serializers.CharField(source="revision.user_id", read_only=True)
     date_created = serializers.DateTimeField(
-        source='revision.date_created', read_only=True
+        source="revision.date_created", read_only=True
     )
-    comment = serializers.CharField(source='revision.comment', read_only=True)
-    content_type = serializers.CharField(source='revision.content_type', read_only=True)
+    comment = serializers.CharField(source="revision.comment", read_only=True)
+    content_type = serializers.CharField(source="revision.content_type", read_only=True)
 
     class Meta:
         model = Version
         fields = [
-            'id',
-            'revision_id',
-            'object_id',
-            'content_type',
-            'db',
-            'format',
-            'serialized_data',
-            'object_repr',
-            'user_id',
-            'date_created',
-            'comment',
+            "id",
+            "revision_id",
+            "object_id",
+            "content_type",
+            "db",
+            "format",
+            "serialized_data",
+            "object_repr",
+            "user_id",
+            "date_created",
+            "comment",
         ]

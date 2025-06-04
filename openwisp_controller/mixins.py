@@ -44,10 +44,10 @@ class AutoRevisionMixin(RevisionMixin):
     revision_atomic = False
 
     def dispatch(self, request, *args, **kwargs):
-        qs = getattr(self, 'queryset', None)
-        model = getattr(qs, 'model', None)
+        qs = getattr(self, "queryset", None)
+        model = getattr(qs, "model", None)
         if (
-            request.method in ('POST', 'PUT', 'PATCH')
+            request.method in ("POST", "PUT", "PATCH")
             and request.user.is_authenticated
             and model
             and reversion.is_registered(model)
@@ -56,7 +56,7 @@ class AutoRevisionMixin(RevisionMixin):
                 response = super().dispatch(request, *args, **kwargs)
                 reversion.set_user(request.user)
                 reversion.set_comment(
-                    f'API request: {request.method} {request.get_full_path()}'
+                    f"API request: {request.method} {request.get_full_path()}"
                 )
             return response
         return super().dispatch(request, *args, **kwargs)

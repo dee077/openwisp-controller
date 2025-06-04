@@ -305,14 +305,14 @@ class DeviceGroupCommonName(ProtectedAPIMixin, AutoRevisionMixin, RetrieveAPIVie
 
 class RevisionListView(ProtectedAPIMixin, ListAPIView):
     serializer_class = VersionSerializer
-    queryset = Version.objects.select_related('revision').order_by(
-        '-revision__date_created'
+    queryset = Version.objects.select_related("revision").order_by(
+        "-revision__date_created"
     )
 
     def get_queryset(self):
-        model = self.kwargs.get('model').lower()
+        model = self.kwargs.get("model").lower()
         queryset = self.queryset.filter(content_type__model=model)
-        revision_id = self.request.query_params.get('revision_id')
+        revision_id = self.request.query_params.get("revision_id")
         if revision_id:
             queryset = queryset.filter(revision_id=revision_id)
         return self.queryset.filter(content_type__model=model)
@@ -320,28 +320,28 @@ class RevisionListView(ProtectedAPIMixin, ListAPIView):
 
 class VersionDetailView(ProtectedAPIMixin, RetrieveAPIView):
     serializer_class = VersionSerializer
-    queryset = Version.objects.select_related('revision').order_by(
-        '-revision__date_created'
+    queryset = Version.objects.select_related("revision").order_by(
+        "-revision__date_created"
     )
 
     def get_queryset(self):
-        model = self.kwargs.get('model').lower()
+        model = self.kwargs.get("model").lower()
         return self.queryset.filter(content_type__model=model)
 
 
 class RevisionRestoreView(ProtectedAPIMixin, GenericAPIView):
     serializer_class = serializers.Serializer
-    queryset = Version.objects.select_related('revision').order_by(
-        '-revision__date_created'
+    queryset = Version.objects.select_related("revision").order_by(
+        "-revision__date_created"
     )
 
     def get_queryset(self):
-        model = self.kwargs.get('model').lower()
+        model = self.kwargs.get("model").lower()
         return self.queryset.filter(content_type__model=model)
 
     def post(self, request, *args, **kwargs):
         qs = self.get_queryset()
-        versions = get_list_or_404(qs, revision_id=kwargs['pk'])
+        versions = get_list_or_404(qs, revision_id=kwargs["pk"])
         with transaction.atomic():
             with reversion.create_revision():
                 for version in versions:
